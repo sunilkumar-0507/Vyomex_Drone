@@ -2,9 +2,55 @@ function scrollToContact() {
   document.getElementById("contact").scrollIntoView({ behavior: "smooth" });
 }
 
+function scrollToSection(sectionId) {
+  document.getElementById(sectionId).scrollIntoView({ behavior: "smooth" });
+}
+
+function closeMobileMenu() {
+  const mobileMenu = document.getElementById("mobileMenu");
+  mobileMenu.classList.remove("active");
+}
+
 function sendMail() {
   window.location.href = "mailto:vyomexdrone@gmail.com";
 }
+
+// Mobile menu toggle
+document.addEventListener('DOMContentLoaded', () => {
+  const menuToggle = document.getElementById("menuToggle");
+  const mobileMenu = document.getElementById("mobileMenu");
+  
+  if (menuToggle) {
+    menuToggle.addEventListener("click", () => {
+      mobileMenu.classList.toggle("active");
+    });
+  }
+
+  // Close menu when clicking outside
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest("header") && !e.target.closest(".mobile-menu")) {
+      mobileMenu.classList.remove("active");
+    }
+  });
+
+  // Smooth scroll for all anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      const href = this.getAttribute('href');
+      if (href !== '#' && document.querySelector(href)) {
+        e.preventDefault();
+        const target = document.querySelector(href);
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+          closeMobileMenu();
+        }
+      }
+    });
+  });
+});
 
 // Update active nav link on scroll
 window.addEventListener('scroll', () => {
@@ -43,15 +89,4 @@ document.addEventListener('DOMContentLoaded', () => {
       contactForm.reset();
     });
   }
-});
-
-// Smooth scroll for all anchor links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function (e) {
-    e.preventDefault();
-    const target = document.querySelector(this.getAttribute('href'));
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth' });
-    }
-  });
 });
