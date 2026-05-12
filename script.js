@@ -12,7 +12,7 @@ function closeMobileMenu() {
 }
 
 function sendMail() {
-  window.location.href = "mailto:vyomexdrone@gmail.com";
+  window.location.href = "mailto:vyomextech@gmail.com";
 }
 
 // Mobile menu toggle

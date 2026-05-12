@@ -199,18 +199,22 @@ nav {
 
 .hero-content {
   z-index: 1;
-  max-width: 600px;
+  max-width: 800px;
   animation: slideInUp 1s ease-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
 }
 
 .hero-content h1 {
   font-size: 72px;
   font-weight: 700;
-  line-height: 1.1;
+  line-height: 1.2;
   margin-bottom: 20px;
   letter-spacing: -1px;
-  word-spacing: 100vw;
+  white-space: normal;
+  text-align: center;
 }
 
 .hero-content h1 .highlight {
@@ -223,6 +227,7 @@ nav {
   font-weight: 400;
   color: #b0b8c8;
   letter-spacing: 1.5px;
+  text-align: center;
 }
 
 .hero-subtitle {
@@ -231,12 +236,15 @@ nav {
   font-weight: 600;
   margin-bottom: 40px;
   letter-spacing: 1px;
+  text-align: center;
 }
 
 .hero-buttons {
   display: flex;
+  flex-direction: row;
   gap: 20px;
   justify-content: center;
+  grid-row: 1 / 5;
 }
 
 .drone-img {
@@ -300,56 +308,31 @@ nav {
 }
 
 /* Stats Top Section */
-.stats-top {
-  background: rgba(0, 212, 255, 0.08);
-  padding: 50px;
-  border-top: 1px solid rgba(0, 212, 255, 0.1);
-  border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+.services {
+  padding: 100px 50px;
+  background: #001a33;
 }
 
-.stats-top .stats-container {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 40px;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.stat-item {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.stat-item i {
-  font-size: 36px;
-  color: #00d4ff;
-  margin-bottom: 15px;
-}
-
-.stat-item h3 {
-  font-size: 36px;
+.services h2 {
+  font-size: 48px;
   font-weight: 700;
-  color: #00d4ff;
-  margin-bottom: 8px;
+  margin-bottom: 15px;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-align: left;
 }
 
-.stat-item p {
-  font-size: 12px;
-  color: #b0b8c8;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
+.services .underline {
+  margin-bottom: 60px;
+  margin-left: 0;
 }
 
 .cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 25px;
-  max-width: 1400px;
-  margin: 0 auto;
-  margin-top: 60px;
+  margin-top: 0;
 }
 
 .card {
@@ -454,70 +437,6 @@ nav {
   width: 100%;
   height: auto;
   display: block;
-}
-
-/* Stats Section */
-.stats {
-  display: none;
-}
-
-/* Testimonials Section */
-.testimonials {
-  padding: 100px 50px;
-  background: #0a2f4d;
-  text-align: center;
-}
-
-.testimonials h2 {
-  font-size: 48px;
-  font-weight: 700;
-  margin-bottom: 15px;
-  color: #ffffff;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-}
-
-.testimonials-container {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 30px;
-  max-width: 900px;
-  margin: 0 auto;
-  margin-top: 60px;
-}
-
-.testimonial-card {
-  background: rgba(0, 212, 255, 0.03);
-  border: 1px solid rgba(0, 212, 255, 0.2);
-  padding: 35px;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-}
-
-.testimonial-card:hover {
-  background: rgba(0, 212, 255, 0.08);
-  border-color: rgba(0, 212, 255, 0.4);
-  transform: translateY(-8px);
-}
-
-.testimonial-card p {
-  font-size: 13px;
-  color: #b0b8c8;
-  margin-bottom: 20px;
-  line-height: 1.8;
-  font-style: italic;
-}
-
-.testimonial-card h4 {
-  font-size: 14px;
-  font-weight: 700;
-  color: #00d4ff;
-  margin-bottom: 5px;
-}
-
-.testimonial-card span {
-  font-size: 12px;
-  color: #888;
 }
 
 /* Contact Section */
@@ -805,7 +724,6 @@ footer {
 .projects {
   padding: 100px 50px;
   background: #001a33;
-  text-align: center;
 }
 
 .projects h2 {
@@ -815,6 +733,12 @@ footer {
   color: #ffffff;
   text-transform: uppercase;
   letter-spacing: 2px;
+  text-align: left;
+}
+
+.projects .underline {
+  margin-bottom: 60px;
+  margin-left: 0;
 }
 
 .projects-subtitle {
@@ -829,8 +753,6 @@ footer {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 25px;
-  max-width: 1400px;
-  margin: 0 auto;
 }
 
 .project-card {
@@ -882,7 +804,6 @@ footer {
 .why-choose {
   padding: 100px 50px;
   background: #0a2f4d;
-  text-align: center;
 }
 
 .why-choose h2 {
@@ -892,15 +813,19 @@ footer {
   color: #ffffff;
   text-transform: uppercase;
   letter-spacing: 2px;
+  text-align: left;
+}
+
+.why-choose .underline {
+  margin-bottom: 60px;
+  margin-left: 0;
 }
 
 .features-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 30px;
-  max-width: 1400px;
-  margin: 0 auto;
-  margin-top: 60px;
+  margin-top: 0;
 }
 
 .feature-item {
@@ -948,7 +873,6 @@ footer {
 .training {
   padding: 100px 50px;
   background: #001a33;
-  text-align: center;
 }
 
 .training h2 {
@@ -958,6 +882,12 @@ footer {
   color: #ffffff;
   text-transform: uppercase;
   letter-spacing: 2px;
+  text-align: left;
+}
+
+.training .underline {
+  margin-bottom: 60px;
+  margin-left: 0;
 }
 
 .impact-stats {
@@ -973,6 +903,12 @@ footer {
   text-align: center;
 }
 
+.impact-item i {
+  font-size: 40px;
+  color: #00d4ff;
+  margin-bottom: 15px;
+}
+
 .impact-item h3 {
   font-size: 48px;
   font-weight: 700;
@@ -985,6 +921,98 @@ footer {
   color: #b0b8c8;
   font-weight: 500;
   letter-spacing: 0.5px;
+  margin-bottom: 10px;
+}
+
+.impact-desc {
+  font-size: 12px;
+  color: #888;
+  line-height: 1.5;
+  display: block;
+}
+
+/* How We Work Section */
+.how-we-work {
+  padding: 100px 50px;
+  background: #001a33;
+}
+
+.how-we-work h2 {
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-align: left;
+}
+
+.how-we-work .underline {
+  margin-bottom: 60px;
+  margin-left: 0;
+}
+
+.work-process {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  max-width: 1400px;
+  margin: 0 auto;
+  margin-top: 60px;
+}
+
+.process-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-width: 150px;
+}
+
+.step-number {
+  width: 70px;
+  height: 70px;
+  background: rgba(0, 212, 255, 0.1);
+  border: 2px solid #00d4ff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: 700;
+  color: #00d4ff;
+  margin-bottom: 15px;
+  transition: all 0.3s ease;
+}
+
+.process-step:hover .step-number {
+  background: rgba(0, 212, 255, 0.2);
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+}
+
+.process-step h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.process-step p {
+  font-size: 12px;
+  color: #b0b8c8;
+  line-height: 1.6;
+}
+
+.process-arrow {
+  font-size: 24px;
+  color: #00d4ff;
+  margin: 0 10px;
+  font-weight: 700;
 }
 
 /* CTA Section */
@@ -1031,7 +1059,7 @@ footer {
   .projects,
   .why-choose,
   .training,
-  .testimonials,
+  .how-we-work,
   .contact,
   .cta {
     padding: 80px 30px;
@@ -1047,11 +1075,6 @@ footer {
 
   .projects-grid {
     grid-template-columns: repeat(2, 1fr);
-  }
-
-  .stats-top .stats-container {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
   }
 }
 
@@ -1126,28 +1149,12 @@ footer {
     font-size: 11px;
   }
 
-  .stats-top {
-    padding: 40px 20px;
-  }
-
-  .stat-item h3 {
-    font-size: 28px;
-  }
-
-  .stat-item p {
-    font-size: 11px;
-  }
-
-  .stat-item i {
-    font-size: 28px;
-  }
-
   .about,
   .services,
   .projects,
   .why-choose,
   .training,
-  .testimonials,
+  .how-we-work,
   .contact,
   .cta {
     padding: 50px 20px;
@@ -1158,10 +1165,39 @@ footer {
   .projects h2,
   .why-choose h2,
   .training h2,
-  .testimonials h2,
+  .how-we-work h2,
   .contact h2,
   .cta-container h2 {
     font-size: 28px;
+  }
+
+  .work-process {
+    gap: 15px;
+    margin-top: 50px;
+  }
+
+  .process-step {
+    min-width: 120px;
+  }
+
+  .step-number {
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+
+  .process-step h3 {
+    font-size: 14px;
+  }
+
+  .process-step p {
+    font-size: 11px;
+  }
+
+  .process-arrow {
+    font-size: 18px;
+    margin: 0 5px;
   }
 
   .underline {
@@ -1242,19 +1278,6 @@ footer {
   }
 
   .impact-item p {
-    font-size: 12px;
-  }
-
-  .testimonials-container {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  .testimonial-card {
-    padding: 25px;
-  }
-
-  .testimonial-card p {
     font-size: 12px;
   }
 
@@ -1395,7 +1418,6 @@ footer {
 
   .hero-content h1 {
     font-size: 26px;
-    word-spacing: normal;
   }
 
   .hero-content p {
@@ -1413,34 +1435,12 @@ footer {
     font-size: 10px;
   }
 
-  .stats-top {
-    padding: 30px 15px;
-  }
-
-  .stats-top .stats-container {
-    grid-template-columns: 1fr;
-    gap: 15px;
-  }
-
-  .stat-item h3 {
-    font-size: 24px;
-  }
-
-  .stat-item p {
-    font-size: 10px;
-  }
-
-  .stat-item i {
-    font-size: 20px;
-    margin-bottom: 10px;
-  }
-
   .about,
   .services,
   .projects,
   .why-choose,
   .training,
-  .testimonials,
+  .how-we-work,
   .contact,
   .cta {
     padding: 40px 15px;
@@ -1451,10 +1451,20 @@ footer {
   .projects h2,
   .why-choose h2,
   .training h2,
-  .testimonials h2,
+  .how-we-work h2,
   .contact h2,
   .cta-container h2 {
     font-size: 22px;
+  }
+
+  .work-process {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .process-arrow {
+    transform: rotate(90deg);
+    margin: 5px 0;
   }
 
   .underline {
@@ -1508,23 +1518,6 @@ footer {
 
   .impact-item h3 {
     font-size: 28px;
-  }
-
-  .testimonials-container {
-    grid-template-columns: 1fr;
-    gap: 15px;
-  }
-
-  .testimonial-card {
-    padding: 20px;
-  }
-
-  .testimonial-card p {
-    font-size: 11px;
-  }
-
-  .testimonial-card h4 {
-    font-size: 12px;
   }
 
   .cta-container h2 {
@@ -1605,7 +1598,6 @@ footer {
   .projects h2,
   .why-choose h2,
   .training h2,
-  .testimonials h2,
   .contact h2,
   .cta-container h2 {
     font-size: 18px;
