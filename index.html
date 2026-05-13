@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="style.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
 
@@ -25,7 +26,7 @@
   <button class="mobile-menu-toggle" id="menuToggle">
     <i class="fas fa-bars"></i>
   </button>
-  <button class="btn btn-quote" onclick="scrollToContact()">GET A QUOTE</button>
+  <button class="btn btn-quote" onclick="openQuoteModal()">GET A QUOTE</button>
 </header>
 
 <nav class="mobile-menu" id="mobileMenu">
@@ -39,6 +40,7 @@
 
 <section class="hero" id="home">
   <div class="hero-bg"></div>
+  <div id="drone-container" class="drone-container"></div>
   <div class="hero-content">
     <h1>THE SKY IS NO<br><span class="highlight">LONGER THE LIMIT</span></h1>
     <p>Revolutionizing Drone Technology</p>
@@ -76,6 +78,9 @@
   <div class="underline"></div>
   <div class="cards">
     <div class="card">
+      <div class="card-image">
+        <img src="images/Industrial.png" alt="Drone Inspection" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22200%22><rect fill=%22%23003d7a%22 width=%22300%22 height=%22200%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22 fill=%22%2300d4ff%22 font-size=%2224%22 font-family=%22Arial%22>Drone Inspection</text></svg>'">
+      </div>
       <div class="card-icon">
         <i class="fas fa-search"></i>
       </div>
@@ -83,6 +88,9 @@
       <p>Windmills, buildings, bridges & structure inspections</p>
     </div>
     <div class="card">
+      <div class="card-image">
+        <img src="images/Survailance.png" alt="Aerial Mapping" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22200%22><rect fill=%22%23003d7a%22 width=%22300%22 height=%22200%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22 fill=%22%2300d4ff%22 font-size=%2224%22 font-family=%22Arial%22>Aerial Mapping</text></svg>'">
+      </div>
       <div class="card-icon">
         <i class="fas fa-map"></i>
       </div>
@@ -90,6 +98,9 @@
       <p>Surveying, 3D mapping and terrain analysis</p>
     </div>
     <div class="card">
+      <div class="card-image">
+        <img src="images/Agriculture.png" alt="Agriculture Solutions" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22200%22><rect fill=%22%23003d7a%22 width=%22300%22 height=%22200%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22 fill=%22%2300d4ff%22 font-size=%2220%22 font-family=%22Arial%22>Agriculture</text></svg>'">
+      </div>
       <div class="card-icon">
         <i class="fas fa-leaf"></i>
       </div>
@@ -97,6 +108,9 @@
       <p>Crop monitoring, disease detection & analysis</p>
     </div>
     <div class="card">
+      <div class="card-image">
+        <img src="images/teaching.png" alt="Drone Training" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22200%22><rect fill=%22%23003d7a%22 width=%22300%22 height=%22200%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22 fill=%22%2200d4ff%22 font-size=%2224%22 font-family=%22Arial%22>Drone Training</text></svg>'">
+      </div>
       <div class="card-icon">
         <i class="fas fa-graduation-cap"></i>
       </div>
@@ -104,6 +118,9 @@
       <p>Workshops, certifications & internship programs</p>
     </div>
     <div class="card">
+      <div class="card-image">
+        <img src="images/Custom.png" alt="Aerial Photography" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22200%22><rect fill=%22%23003d7a%22 width=%22300%22 height=%22200%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22 fill=%22%2300d4ff%22 font-size=%2220%22 font-family=%22Arial%22>Aerial Photography</text></svg>'">
+      </div>
       <div class="card-icon">
         <i class="fas fa-camera"></i>
       </div>
@@ -111,6 +128,9 @@
       <p>Events, promotions & cinematic visuals</p>
     </div>
     <div class="card">
+      <div class="card-image">
+        <img src="images/Aerial.png" alt="Custom Solutions" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22200%22><rect fill=%22%23003d7a%22 width=%22300%22 height=%22200%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22 fill=%22%2300d4ff%22 font-size=%2224%22 font-family=%22Arial%22>Solutions</text></svg>'">
+      </div>
       <div class="card-icon">
         <i class="fas fa-cogs"></i>
       </div>
@@ -129,15 +149,15 @@
       <div class="project-image">
         <i class="fas fa-wind"></i>
       </div>
-      <h3>WINDMILL INSPECTION</h3>
+      <h3> INSPECTION</h3>
       <p>High-resolution drones</p>
     </div>
     <div class="project-card">
       <div class="project-image">
         <i class="fas fa-users"></i>
       </div>
-      <h3>COLLEGE WORKSHOP</h3>
-      <p>For college students</p>
+      <h3>WORKSHOP</h3>
+      <p>For college & school students</p>
     </div>
     <div class="project-card">
       <div class="project-image">
@@ -269,7 +289,7 @@
   <div class="cta-container">
     <h2>READY TO ELEVATE YOUR PROJECTS WITH DRONES?</h2>
     <p>Let's unlock the future together!</p>
-    <button class="btn btn-primary" onclick="scrollToContact()">GET A QUOTE</button>
+    <button class="btn btn-primary" onclick="openQuoteModal()">GET A QUOTE</button>
   </div>
 </section>
 
@@ -277,6 +297,36 @@
   <div class="contact-container">
     <h2>CONTACT US</h2>
     <div class="underline"></div>
+    
+    <!-- Contact Info Cards -->
+    <div class="contact-info-cards">
+      <div class="info-card">
+        <div class="card-icon">
+          <i class="fas fa-envelope"></i>
+        </div>
+        <h3>EMAIL</h3>
+        <p><a href="mailto:vyomexdronetech@gmail.com">vyomexdronetech@gmail.com</a></p>
+        <p class="card-subtitle">We'll respond within 24 hours</p>
+      </div>
+      
+      <div class="info-card">
+        <div class="card-icon">
+          <i class="fas fa-phone"></i>
+        </div>
+        <h3>PHONE</h3>
+        <p><a href="tel:7305308877">+91 7305308877</a></p>
+        <p class="card-subtitle">Mon-Fri, 9AM-6PM IST</p>
+      </div>
+      
+      <div class="info-card">
+        <div class="card-icon">
+          <i class="fas fa-map-marker-alt"></i>
+        </div>
+        <h3>LOCATION</h3>
+        <p>Siruseri, Tamil Nadu</p>
+        <p class="card-subtitle">Office & Training Center</p>
+      </div>
+    </div>
     
     <div class="contact-grid">
       <div class="contact-info">
@@ -304,8 +354,8 @@
       <div class="contact-info">
         <div class="contact-details">
           <h3>CONTACT US</h3>
-          <p><strong>Phone:</strong> <a href="tel:+917200198877">+91 7200198877</a></p>
-          <p><strong>Email:</strong> <a href="mailto:vyomextech@gmail.com">vyomextech@gmail.com</a></p>
+          <p><strong>Phone:</strong> <a href="tel:7305308877">7305308877</a></p>
+          <p><strong>Email:</strong> <a href="mailto:vyomexdronetech@gmail.com">vyomexdronetech@gmail.com</a></p>
           <p><strong>Location:</strong> Siruseri, Tamil Nadu</p>
         </div>
       </div>
@@ -321,16 +371,36 @@
       </div>
     </div>
 
-    <form class="contact-form">
+  </div>
+</section>
+
+<!-- Quote Modal Popup -->
+<div id="quoteModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>GET YOUR QUOTE</h2>
+      <button class="close-btn" onclick="closeQuoteModal()">&times;</button>
+    </div>
+    <form class="contact-form" id="quoteForm">
       <div class="form-row">
-        <input type="text" name="firstName" placeholder="Name" required>
-        <input type="email" name="email" placeholder="Email" required>
+        <input type="text" name="firstName" placeholder="Your Name" required>
+        <input type="email" name="email" placeholder="Your Email" required>
       </div>
-      <textarea name="message" placeholder="Message" rows="4" required></textarea>
+      <input type="text" name="phone" placeholder="Phone Number" required>
+      <select name="service" class="form-select" required>
+        <option value="">Select Service</option>
+        <option value="inspection">Drone Inspection</option>
+        <option value="mapping">Aerial Mapping</option>
+        <option value="agriculture">Agriculture Solutions</option>
+        <option value="training">Drone Training</option>
+        <option value="photography">Aerial Photography</option>
+        <option value="custom">Custom Solutions</option>
+      </select>
+      <textarea name="message" placeholder="Tell us about your project..." rows="5" required></textarea>
       <button type="submit" class="btn btn-primary">SEND INQUIRY</button>
     </form>
   </div>
-</section>
+</div>
 
 <footer>
   <div class="footer-content">
