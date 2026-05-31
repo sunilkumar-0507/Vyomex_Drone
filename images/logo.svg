@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 355 76" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- V lettermark gradient: cyan top → deep navy bottom -->
+    <linearGradient id="lg-v" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#00d4ff"/>
+      <stop offset="42%"  stop-color="#0088dd"/>
+      <stop offset="100%" stop-color="#001833"/>
+    </linearGradient>
+
+    <!-- Orbital ring gradient: fades at edges, bright in the arc -->
+    <linearGradient id="lg-ring" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#00d4ff" stop-opacity="0"/>
+      <stop offset="30%"  stop-color="#00d4ff" stop-opacity="1"/>
+      <stop offset="70%"  stop-color="#00d4ff" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#00d4ff" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Standard glow filter for V mark, ring, drone -->
+    <filter id="f-glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2.2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Lighter glow for the cyan O tspan -->
+    <filter id="f-glow-o" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- V LETTERMARK                                           -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <g>
+    <!-- Ambient bloom behind V -->
+    <ellipse cx="38" cy="37" rx="30" ry="27" fill="#00d4ff" opacity="0.04"/>
+
+    <!-- Bold V shape — two tapered arms meet at the base point -->
+    <path d="M 3,5 L 18,5 L 38,62 L 58,5 L 73,5 L 38,72 Z"
+          fill="url(#lg-v)" filter="url(#f-glow)"/>
+
+    <!-- Subtle inner face highlight (left arm) -->
+    <path d="M 5,5 L 18,5 L 38,56 L 37,56 L 19,8 Z"
+          fill="rgba(255,255,255,0.07)"/>
+
+    <!-- Tilted orbital ring around V -->
+    <ellipse cx="38" cy="36" rx="36" ry="14"
+             fill="none"
+             stroke="url(#lg-ring)"
+             stroke-width="1.8"
+             transform="rotate(-22, 38, 36)"
+             filter="url(#f-glow)"/>
+
+    <!-- Aircraft on the orbital ring (upper-left arc) -->
+    <g transform="translate(13,12) rotate(-26)" filter="url(#f-glow)">
+      <!-- Fuselage -->
+      <ellipse cx="0" cy="0" rx="8.5" ry="2" fill="#00d4ff" opacity="0.95"/>
+      <!-- Nose cone -->
+      <polygon points="7,-3.5 10.5,0 7,0" fill="#00d4ff" opacity="0.8"/>
+      <!-- Wings -->
+      <polygon points="-1.5,-1 2,-1 1,4 -0.5,4" fill="#00d4ff" opacity="0.6"/>
+    </g>
+
+    <!-- V tip accent glow dot -->
+    <circle cx="38" cy="70" r="2.2" fill="#00d4ff" opacity="0.55" filter="url(#f-glow)"/>
+  </g>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- VYOMEX WORDMARK                                        -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <text x="90" y="50"
+        font-family="'Poppins', 'Arial Black', Arial, sans-serif"
+        font-size="30"
+        font-weight="700"
+        fill="#ffffff"
+        letter-spacing="2">VY<tspan fill="#00d4ff" filter="url(#f-glow-o)">O</tspan>MEX</text>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- MINI DRONE above the "O"                               -->
+  <!-- O center estimated at x≈143, y of letter tops ≈ 28   -->
+  <!-- Drone center at y=14 → bottom of arms at y=22 = clear  -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <g transform="translate(143,14)" filter="url(#f-glow)">
+    <!-- X-frame arms -->
+    <line x1="0" y1="0" x2=" 8" y2="-8" stroke="#00d4ff" stroke-width="1.3" stroke-linecap="round"/>
+    <line x1="0" y1="0" x2="-8" y2="-8" stroke="#00d4ff" stroke-width="1.3" stroke-linecap="round"/>
+    <line x1="0" y1="0" x2=" 8" y2=" 8" stroke="#00d4ff" stroke-width="1.3" stroke-linecap="round"/>
+    <line x1="0" y1="0" x2="-8" y2=" 8" stroke="#00d4ff" stroke-width="1.3" stroke-linecap="round"/>
+
+    <!-- Motor housings -->
+    <circle cx=" 8" cy="-8" r="3.5" fill="rgba(0,18,46,0.85)" stroke="#00d4ff" stroke-width="0.8"/>
+    <circle cx="-8" cy="-8" r="3.5" fill="rgba(0,18,46,0.85)" stroke="#00d4ff" stroke-width="0.8"/>
+    <circle cx=" 8" cy=" 8" r="3.5" fill="rgba(0,18,46,0.85)" stroke="#00d4ff" stroke-width="0.8"/>
+    <circle cx="-8" cy=" 8" r="3.5" fill="rgba(0,18,46,0.85)" stroke="#00d4ff" stroke-width="0.8"/>
+
+    <!-- Spinning propellers — 4-blade cross per motor, alternating CW / CCW -->
+    <!-- Top-left: CCW -->
+    <g transform="translate(-8,-8)">
+      <line x1="-3.2" y1="0" x2="3.2" y2="0" stroke="#00d4ff" stroke-width="1.1" stroke-linecap="round" opacity="0.9"/>
+      <line x1="0" y1="-3.2" x2="0" y2="3.2" stroke="#00d4ff" stroke-width="1.1" stroke-linecap="round" opacity="0.9"/>
+      <animateTransform attributeName="transform" type="rotate"
+                        from="0 0 0" to="-360 0 0"
+                        dur="0.22s" repeatCount="indefinite" additive="sum"/>
+    </g>
+    <!-- Top-right: CW -->
+    <g transform="translate(8,-8)">
+      <line x1="-3.2" y1="0" x2="3.2" y2="0" stroke="#00d4ff" stroke-width="1.1" stroke-linecap="round" opacity="0.9"/>
+      <line x1="0" y1="-3.2" x2="0" y2="3.2" stroke="#00d4ff" stroke-width="1.1" stroke-linecap="round" opacity="0.9"/>
+      <animateTransform attributeName="transform" type="rotate"
+                        from="0 0 0" to="360 0 0"
+                        dur="0.27s" repeatCount="indefinite" additive="sum"/>
+    </g>
+    <!-- Bottom-left: CW -->
+    <g transform="translate(-8,8)">
+      <line x1="-3.2" y1="0" x2="3.2" y2="0" stroke="#00d4ff" stroke-width="1.1" stroke-linecap="round" opacity="0.9"/>
+      <line x1="0" y1="-3.2" x2="0" y2="3.2" stroke="#00d4ff" stroke-width="1.1" stroke-linecap="round" opacity="0.9"/>
+      <animateTransform attributeName="transform" type="rotate"
+                        from="0 0 0" to="360 0 0"
+                        dur="0.19s" repeatCount="indefinite" additive="sum"/>
+    </g>
+    <!-- Bottom-right: CCW -->
+    <g transform="translate(8,8)">
+      <line x1="-3.2" y1="0" x2="3.2" y2="0" stroke="#00d4ff" stroke-width="1.1" stroke-linecap="round" opacity="0.9"/>
+      <line x1="0" y1="-3.2" x2="0" y2="3.2" stroke="#00d4ff" stroke-width="1.1" stroke-linecap="round" opacity="0.9"/>
+      <animateTransform attributeName="transform" type="rotate"
+                        from="0 0 0" to="-360 0 0"
+                        dur="0.24s" repeatCount="indefinite" additive="sum"/>
+    </g>
+
+    <!-- Body chassis -->
+    <rect x="-4.5" y="-4.5" width="9" height="9" rx="2.2"
+          fill="#001428" stroke="#00d4ff" stroke-width="0.9"/>
+    <!-- Camera gimbal -->
+    <circle cx="0" cy="0" r="2.3" fill="none" stroke="#00d4ff" stroke-width="0.8"/>
+    <circle cx="0" cy="0" r="0.9" fill="#00d4ff"/>
+  </g>
+
+  <!-- Thin separator line -->
+  <line x1="90" y1="55" x2="308" y2="55" stroke="#00d4ff" stroke-width="0.4" opacity="0.3"/>
+
+  <!-- DRONE TECHNOLOGY tagline -->
+  <text x="90" y="68"
+        font-family="'Poppins', Arial, sans-serif"
+        font-size="9.5"
+        font-weight="600"
+        fill="#00d4ff"
+        letter-spacing="4"
+        opacity="0.85">DRONE TECHNOLOGY</text>
+</svg>

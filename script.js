@@ -98,6 +98,209 @@ window.addEventListener('scroll', () => {
   });
 });
 
+// ============ FLIP CARD FUNCTIONALITY ============
+document.addEventListener('DOMContentLoaded', () => {
+  // Flip Card Toggle
+  const flipCards = document.querySelectorAll('.flip-card');
+  flipCards.forEach(card => {
+    card.addEventListener('click', function(e) {
+      this.classList.toggle('flipped');
+    });
+  });
+
+  // ============ CAROUSEL FUNCTIONALITY ============
+  const carouselTrack = document.getElementById('carouselTrack');
+  const carouselCards = document.querySelectorAll('.carousel-card');
+  const carouselDots = document.getElementById('carouselDots');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+
+  const CARD_GAP = 20; // must match CSS gap on .carousel-track
+  let currentIndex = 0;
+  const totalCards = carouselCards.length;
+
+  function getCardsPerView() {
+    if (window.innerWidth <= 768) return 1;
+    if (window.innerWidth <= 1024) return 2;
+    return 3;
+  }
+
+  // Set every card's pixel width so they fill the wrapper evenly
+  function sizeCards() {
+    const cpv = getCardsPerView();
+    const wrapperWidth = carouselTrack.parentElement.offsetWidth;
+    const cardWidth = Math.floor((wrapperWidth - CARD_GAP * (cpv - 1)) / cpv);
+    carouselCards.forEach(card => {
+      card.style.width = cardWidth + 'px';
+    });
+    return cardWidth;
+  }
+
+  // Create dots
+  for (let i = 0; i < totalCards; i++) {
+    const dot = document.createElement('div');
+    dot.classList.add('carousel-dot');
+    if (i === 0) dot.classList.add('active');
+    dot.addEventListener('click', () => goToSlide(i));
+    carouselDots.appendChild(dot);
+  }
+
+  const dots = document.querySelectorAll('.carousel-dot');
+
+  function updateCarousel() {
+    const cardWidth = sizeCards();
+    const offset = -currentIndex * (cardWidth + CARD_GAP);
+    carouselTrack.style.transform = `translateX(${offset}px)`;
+    dots.forEach((dot, i) => dot.classList.toggle('active', i === currentIndex));
+  }
+
+  function goToSlide(index) {
+    const cpv = getCardsPerView();
+    currentIndex = Math.max(0, Math.min(index, totalCards - cpv));
+    updateCarousel();
+  }
+
+  function nextSlide() {
+    const cpv = getCardsPerView();
+    currentIndex = currentIndex < totalCards - cpv ? currentIndex + 1 : 0;
+    updateCarousel();
+  }
+
+  function prevSlide() {
+    const cpv = getCardsPerView();
+    currentIndex = currentIndex > 0 ? currentIndex - 1 : totalCards - cpv;
+    updateCarousel();
+  }
+
+  prevBtn.addEventListener('click', prevSlide);
+  nextBtn.addEventListener('click', nextSlide);
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') prevSlide();
+    if (e.key === 'ArrowRight') nextSlide();
+  });
+
+  // Recalculate card widths and reset position on resize
+  window.addEventListener('resize', () => {
+    currentIndex = 0;
+    updateCarousel();
+  });
+
+
+  // Create drone animations
+  const droneAnimationElements = document.querySelectorAll('.drone-animation');
+  droneAnimationElements.forEach((el, index) => {
+    el.innerHTML = createDroneSVG(index);
+  });
+});
+
+// Create animated 3D drone SVG with SMIL propeller animations
+function createDroneSVG(index) {
+  const colors = ['#00d4ff', '#9933ff', '#00f0ff', '#0066d9', '#ff6b35', '#00cc88'];
+  const color = colors[index % colors.length];
+  const speeds = ['0.22s', '0.28s', '0.19s', '0.25s', '0.21s', '0.26s'];
+  const speed = speeds[index % speeds.length];
+  const glowSpeed = (2.5 + index * 0.3).toFixed(1) + 's';
+
+  return `
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"
+         style="width:100%;height:100%;filter:drop-shadow(0 0 10px ${color}66)">
+
+      <!-- Arms (X-pattern, diagonal) -->
+      <line x1="60" y1="60" x2="20" y2="20" stroke="${color}" stroke-width="3"
+            stroke-linecap="round" opacity="0.75"/>
+      <line x1="60" y1="60" x2="100" y2="20" stroke="${color}" stroke-width="3"
+            stroke-linecap="round" opacity="0.75"/>
+      <line x1="60" y1="60" x2="20" y2="100" stroke="${color}" stroke-width="3"
+            stroke-linecap="round" opacity="0.75"/>
+      <line x1="60" y1="60" x2="100" y2="100" stroke="${color}" stroke-width="3"
+            stroke-linecap="round" opacity="0.75"/>
+
+      <!-- Motor mounts -->
+      <circle cx="20" cy="20" r="5.5" fill="${color}" opacity="0.55"/>
+      <circle cx="100" cy="20" r="5.5" fill="${color}" opacity="0.55"/>
+      <circle cx="20" cy="100" r="5.5" fill="${color}" opacity="0.55"/>
+      <circle cx="100" cy="100" r="5.5" fill="${color}" opacity="0.55"/>
+
+      <!-- Propeller blur halos -->
+      <circle cx="20" cy="20" r="15" fill="none" stroke="${color}" stroke-width="1.5" opacity="0.22"/>
+      <circle cx="100" cy="20" r="15" fill="none" stroke="${color}" stroke-width="1.5" opacity="0.22"/>
+      <circle cx="20" cy="100" r="15" fill="none" stroke="${color}" stroke-width="1.5" opacity="0.22"/>
+      <circle cx="100" cy="100" r="15" fill="none" stroke="${color}" stroke-width="1.5" opacity="0.22"/>
+
+      <!-- Spinning propeller – top-left (CCW) -->
+      <g>
+        <line x1="7" y1="20" x2="33" y2="20" stroke="${color}" stroke-width="2.5"
+              stroke-linecap="round" opacity="0.9"/>
+        <line x1="20" y1="7" x2="20" y2="33" stroke="${color}" stroke-width="2"
+              stroke-linecap="round" opacity="0.7"/>
+        <animateTransform attributeName="transform" type="rotate"
+          from="0 20 20" to="-360 20 20" dur="${speed}" repeatCount="indefinite"/>
+      </g>
+
+      <!-- Spinning propeller – top-right (CW) -->
+      <g>
+        <line x1="87" y1="20" x2="113" y2="20" stroke="${color}" stroke-width="2.5"
+              stroke-linecap="round" opacity="0.9"/>
+        <line x1="100" y1="7" x2="100" y2="33" stroke="${color}" stroke-width="2"
+              stroke-linecap="round" opacity="0.7"/>
+        <animateTransform attributeName="transform" type="rotate"
+          from="0 100 20" to="360 100 20" dur="${speed}" repeatCount="indefinite"/>
+      </g>
+
+      <!-- Spinning propeller – bottom-left (CW) -->
+      <g>
+        <line x1="7" y1="100" x2="33" y2="100" stroke="${color}" stroke-width="2.5"
+              stroke-linecap="round" opacity="0.9"/>
+        <line x1="20" y1="87" x2="20" y2="113" stroke="${color}" stroke-width="2"
+              stroke-linecap="round" opacity="0.7"/>
+        <animateTransform attributeName="transform" type="rotate"
+          from="0 20 100" to="360 20 100" dur="${speed}" repeatCount="indefinite"/>
+      </g>
+
+      <!-- Spinning propeller – bottom-right (CCW) -->
+      <g>
+        <line x1="87" y1="100" x2="113" y2="100" stroke="${color}" stroke-width="2.5"
+              stroke-linecap="round" opacity="0.9"/>
+        <line x1="100" y1="87" x2="100" y2="113" stroke="${color}" stroke-width="2"
+              stroke-linecap="round" opacity="0.7"/>
+        <animateTransform attributeName="transform" type="rotate"
+          from="0 100 100" to="-360 100 100" dur="${speed}" repeatCount="indefinite"/>
+      </g>
+
+      <!-- Body: 3D shadow layer -->
+      <rect x="49" y="54" width="26" height="20" rx="5" fill="rgba(0,0,0,0.45)"/>
+      <!-- Body: glow halo -->
+      <rect x="45" y="45" width="30" height="26" rx="6" fill="${color}" opacity="0.08"/>
+      <!-- Body: main face -->
+      <rect x="47" y="47" width="26" height="22" rx="5" fill="${color}" opacity="0.92"/>
+      <!-- Body: top highlight strip -->
+      <rect x="50" y="50" width="14" height="5" rx="2" fill="rgba(255,255,255,0.18)"/>
+      <!-- Body: dark inset -->
+      <rect x="53" y="55" width="8" height="8" rx="2" fill="rgba(0,0,0,0.35)"/>
+
+      <!-- Camera gimbal -->
+      <circle cx="60" cy="75" r="6.5" fill="${color}" opacity="0.35"/>
+      <circle cx="60" cy="75" r="4.5" fill="${color}" opacity="0.8"/>
+      <circle cx="60" cy="75" r="2.2" fill="rgba(0,0,0,0.5)"/>
+      <circle cx="58.8" cy="73.8" r="0.8" fill="rgba(255,255,255,0.65)"/>
+
+      <!-- Blinking status LED -->
+      <circle cx="60" cy="55" r="2.2" fill="white" opacity="0.95">
+        <animate attributeName="opacity" values="0.95;0.1;0.95" dur="1.2s" repeatCount="indefinite"/>
+        <animate attributeName="r" values="2.2;2.8;2.2" dur="1.2s" repeatCount="indefinite"/>
+      </circle>
+
+      <!-- Pulsing glow ring -->
+      <circle cx="60" cy="60" r="30" fill="none" stroke="${color}" stroke-width="0.8" opacity="0.12">
+        <animate attributeName="r" values="28;34;28" dur="${glowSpeed}" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.12;0.04;0.12" dur="${glowSpeed}" repeatCount="indefinite"/>
+      </circle>
+    </svg>
+  `;
+}
+
 // Form submission handler
 document.addEventListener('DOMContentLoaded', () => {
   const contactForm = document.querySelector('.contact-form');
