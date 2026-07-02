@@ -141,17 +141,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const dot = document.createElement('div');
     dot.classList.add('carousel-dot');
     if (i === 0) dot.classList.add('active');
-    dot.addEventListener('click', () => goToSlide(i));
+    dot.addEventListener('click', () => { goToSlide(i); startAutoplay(); });
     carouselDots.appendChild(dot);
   }
 
   const dots = document.querySelectorAll('.carousel-dot');
+
+  // Mark the cards currently in view so their content can animate in
+  function updateActiveCards() {
+    const cpv = getCardsPerView();
+    carouselCards.forEach((card, i) => {
+      card.classList.toggle('is-active', i >= currentIndex && i < currentIndex + cpv);
+    });
+  }
 
   function updateCarousel() {
     const cardWidth = sizeCards();
     const offset = -currentIndex * (cardWidth + CARD_GAP);
     carouselTrack.style.transform = `translateX(${offset}px)`;
     dots.forEach((dot, i) => dot.classList.toggle('active', i === currentIndex));
+    updateActiveCards();
   }
 
   function goToSlide(index) {
@@ -172,27 +181,115 @@ document.addEventListener('DOMContentLoaded', () => {
     updateCarousel();
   }
 
-  prevBtn.addEventListener('click', prevSlide);
-  nextBtn.addEventListener('click', nextSlide);
+  // ----- Autoplay (pauses on interaction / hidden tab / reduced-motion) -----
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const AUTOPLAY_MS = 5000;
+  let autoplayTimer = null;
+
+  function startAutoplay() {
+    stopAutoplay();
+    if (reduceMotion || totalCards <= getCardsPerView()) return;
+    autoplayTimer = setInterval(nextSlide, AUTOPLAY_MS);
+  }
+
+  function stopAutoplay() {
+    if (autoplayTimer) {
+      clearInterval(autoplayTimer);
+      autoplayTimer = null;
+    }
+  }
+
+  prevBtn.addEventListener('click', () => { prevSlide(); startAutoplay(); });
+  nextBtn.addEventListener('click', () => { nextSlide(); startAutoplay(); });
 
   // Keyboard navigation
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowLeft') prevSlide();
-    if (e.key === 'ArrowRight') nextSlide();
+    if (e.key === 'ArrowLeft') { prevSlide(); startAutoplay(); }
+    if (e.key === 'ArrowRight') { nextSlide(); startAutoplay(); }
   });
 
-  // Recalculate card widths and reset position on resize
+  // ----- Touch / swipe support for mobile -----
+  let touchStartX = 0;
+  let touchDeltaX = 0;
+  let isSwiping = false;
+
+  carouselTrack.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+    touchDeltaX = 0;
+    isSwiping = true;
+    stopAutoplay();
+  }, { passive: true });
+
+  carouselTrack.addEventListener('touchmove', (e) => {
+    if (!isSwiping) return;
+    touchDeltaX = e.touches[0].clientX - touchStartX;
+  }, { passive: true });
+
+  carouselTrack.addEventListener('touchend', () => {
+    if (!isSwiping) return;
+    isSwiping = false;
+    if (Math.abs(touchDeltaX) > 45) {
+      if (touchDeltaX < 0) nextSlide();
+      else prevSlide();
+    }
+    startAutoplay();
+  });
+
+  // Pause autoplay while the pointer is over the carousel
+  const carouselContainer = document.querySelector('.carousel-container');
+  if (carouselContainer) {
+    carouselContainer.addEventListener('mouseenter', stopAutoplay);
+    carouselContainer.addEventListener('mouseleave', startAutoplay);
+  }
+
+  // Pause when the tab isn't visible
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stopAutoplay();
+    else startAutoplay();
+  });
+
+  // Recalculate card widths on resize (debounced, keeps position in range)
+  let resizeTimer = null;
   window.addEventListener('resize', () => {
-    currentIndex = 0;
-    updateCarousel();
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      const cpv = getCardsPerView();
+      currentIndex = Math.min(currentIndex, Math.max(0, totalCards - cpv));
+      updateCarousel();
+    }, 120);
   });
-
 
   // Create drone animations
   const droneAnimationElements = document.querySelectorAll('.drone-animation');
   droneAnimationElements.forEach((el, index) => {
     el.innerHTML = createDroneSVG(index);
   });
+
+  // Enable the staggered content animation, then lay everything out
+  carouselTrack.classList.add('enhanced');
+  updateCarousel();
+  startAutoplay();
+
+  // ----- Scroll-reveal for headings, underlines & the carousel -----
+  const revealTargets = Array.from(document.querySelectorAll('section h2, section .underline'));
+  const whyChooseCarousel = document.querySelector('.why-choose .carousel-container');
+  if (whyChooseCarousel) revealTargets.push(whyChooseCarousel);
+
+  revealTargets.forEach(el => el.classList.add('reveal'));
+
+  if ('IntersectionObserver' in window) {
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    revealTargets.forEach(el => revealObserver.observe(el));
+  } else {
+    revealTargets.forEach(el => el.classList.add('visible'));
+  }
 });
 
 // Create animated 3D drone SVG with SMIL propeller animations
